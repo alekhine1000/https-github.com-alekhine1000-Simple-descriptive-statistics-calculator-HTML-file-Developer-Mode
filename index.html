@@ -1,735 +1,689 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Statistics Calculator</title>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.2em;
-        }
-        .upload-section {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .file-input {
-            margin: 15px;
-            padding: 12px;
-            border: 2px dashed rgba(255,255,255,0.7);
-            border-radius: 8px;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            font-size: 16px;
-        }
-        select {
-            margin: 10px;
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 8px;
-            border: none;
-            background: white;
-            color: #333;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 16px;
-            margin: 30px 0;
-        }
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 8px 0;
-        }
-        .stat-label {
-            font-size: 12px;
-            opacity: 0.95;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-        .chart-container {
-            margin: 30px 0;
-            padding: 25px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .chart-title {
-            text-align: center;
-            color: #2c3e50;
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e9ecef;
-        }
-        .instructions {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            border-left: 5px solid #ff6b6b;
-        }
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 10px 0;
-            border-left: 4px solid #dc3545;
-        }
-        .success {
-            background: #d4edda;
-            color: #155724;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 10px 0;
-            border-left: 4px solid #28a745;
-        }
-        #dataPreview {
-            max-height: 150px;
-            overflow-y: auto;
-            border: 2px solid #e9ecef;
-            padding: 15px;
-            margin: 15px 0;
-            background: white;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            border-radius: 8px;
-            white-space: nowrap;
-        }
-        .preview-header {
-            font-weight: bold;
-            color: #495057;
-            margin-bottom: 8px;
-        }
-        .layout-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-top: 30px;
-        }
-        @media (max-width: 768px) {
-            .layout-grid {
-                grid-template-columns: 1fr;
-            }
-            .stats-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        .outlier-list {
-            background: #fff8f8;
-            border-left: 3px solid #e74c3c;
-            padding: 10px;
-            margin-top: 15px;
-            font-family: monospace;
-            font-size: 13px;
-            max-height: 100px;
-            overflow-y: auto;
-        }
-        .outlier-title {
-            font-weight: bold;
-            color: #c0392b;
-            margin-bottom: 5px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Descriptive Statistics Calculator</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --primary: #4f46e5;
+      --primary-dark: #312e81;
+      --accent: #f97316;
+      --border: #e2e8f0;
+      --shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      background: radial-gradient(circle at top, #eef2ff 0%, var(--bg) 60%);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 32px 16px 60px;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 32px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    header h1 {
+      font-size: clamp(1.9rem, 3vw, 2.6rem);
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .instructions {
+      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+      padding: 16px 20px;
+      border-radius: 14px;
+      border-left: 5px solid var(--accent);
+      margin-bottom: 24px;
+      display: grid;
+      gap: 6px;
+      font-size: 0.95rem;
+    }
+
+    .upload-section {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.12), rgba(79, 70, 229, 0.05));
+      border: 1px dashed rgba(79, 70, 229, 0.35);
+      padding: 22px;
+      border-radius: 18px;
+      display: grid;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .upload-section h3 {
+      margin: 0;
+      color: var(--primary-dark);
+      font-size: 1.1rem;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .file-input {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .file-input input {
+      border: none;
+      font-size: 0.9rem;
+    }
+
+    select,
+    button {
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    button {
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 18px rgba(79, 70, 229, 0.2);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .messages {
+      min-height: 36px;
+      margin-bottom: 16px;
+    }
+
+    .message {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+    }
+
+    .message.success {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid rgba(22, 101, 52, 0.25);
+    }
+
+    .message.error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid rgba(153, 27, 27, 0.25);
+    }
+
+    #dataPreview {
+      display: none;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      font-family: "JetBrains Mono", "Courier New", monospace;
+      font-size: 12px;
+      overflow-x: auto;
+      margin-bottom: 24px;
+      background: #fff;
+    }
+
+    #dataPreview .preview-header {
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    #results {
+      display: none;
+    }
+
+    #results h3 {
+      margin-bottom: 16px;
+      font-size: 1.2rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      padding: 16px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.9), rgba(49, 46, 129, 0.95));
+      color: #fff;
+      box-shadow: 0 12px 20px rgba(49, 46, 129, 0.18);
+      display: grid;
+      gap: 6px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+
+    .stat-value {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .outlier-list {
+      display: none;
+      background: #fff1f2;
+      border-left: 4px solid #fb7185;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-family: "JetBrains Mono", "Courier New", monospace;
+      font-size: 12px;
+      margin-bottom: 22px;
+    }
+
+    .outlier-list strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #be123c;
+    }
+
+    .charts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 22px;
+    }
+
+    .chart-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .chart-card h4 {
+      margin: 0 0 12px;
+      text-align: center;
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+
+    footer {
+      margin-top: 28px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        padding: 22px;
+      }
+
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📊Developer mode Basic Descriptive Statistics Calculator</h1>
-        
-        <div class="instructions">
-            <strong>📋 Quick Start:</strong> Upload CSV → Select Column → Get Statistics!
+  <div class="container">
+    <header>
+      <h1>📊 Descriptive Statistics Calculator</h1>
+      <p>Upload a CSV file and explore descriptive insights instantly.</p>
+    </header>
+
+    <section class="instructions">
+      <strong>Quick start</strong>
+      <span>1. Upload CSV → 2. Pick numeric column → 3. Analyze.</span>
+      <small>Example headers: <code>Student_ID,Exam_Score</code></small>
+    </section>
+
+    <section class="upload-section">
+      <h3>🗂️ Upload your data</h3>
+      <div class="controls">
+        <label class="file-input">
+          <span>Select CSV</span>
+          <input type="file" id="csvFile" accept=".csv" />
+        </label>
+        <select id="columnSelect" disabled>
+          <option value="">Select column to analyze...</option>
+        </select>
+        <button id="analyzeButton" disabled>Analyze column</button>
+      </div>
+    </section>
+
+    <div id="messages" class="messages" aria-live="polite"></div>
+
+    <section id="dataPreview">
+      <div class="preview-header">Data Preview (First 5 rows)</div>
+    </section>
+
+    <section id="results">
+      <h3>📈 Statistical Summary</h3>
+      <div id="statsGrid" class="stats-grid"></div>
+
+      <div id="outliersSection" class="outlier-list">
+        <strong>🔴 Detected Outliers</strong>
+        <div id="outlierValues"></div>
+      </div>
+
+      <div class="charts">
+        <div class="chart-card">
+          <h4>Distribution Analysis</h4>
+          <div id="histogram"></div>
         </div>
-
-        <div class="upload-section">
-            <h3>🗂️ Upload Your Data</h3>
-            <input type="file" id="csvFile" accept=".csv" class="file-input">
-            <br>
-            <select id="columnSelect" style="display:none;">
-                <option value="">Select column to analyze...</option>
-            </select>
+        <div class="chart-card">
+          <h4>Box-Whiskers Plot Analysis</h4>
+          <div id="boxplot"></div>
         </div>
+      </div>
+    </section>
 
-        <div id="messages"></div>
-        <div id="dataPreview" style="display:none;">
-            <div class="preview-header">Data Preview (First 5 rows):</div>
-        </div>
+    <footer>All calculations run locally in your browser.</footer>
+  </div>
 
-        <div id="results" style="display:none;">
-            <h3>📈 Statistical Summary</h3>
-            <div class="stats-container" id="statsGrid"></div>
-            
-            <div id="outliersSection" style="display:none;" class="outlier-list">
-                <div class="outlier-title">🔴 Detected Outliers:</div>
-                <div id="outlierValues"></div>
-            </div>
+  <script>
+    const state = {
+      data: [],
+      headers: [],
+      numericHeaders: []
+    };
 
-            <div class="layout-grid">
-                <div class="chart-container">
-                    <div class="chart-title">Distribution Analysis</div>
-                    <div id="histogram"></div>
-                </div>
-                
-                <div class="chart-container">
-                    <div class="chart-title">Box-Whiskers Plot Analysis</div>
-                    <div id="boxplot"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+    const csvInput = document.getElementById("csvFile");
+    const columnSelect = document.getElementById("columnSelect");
+    const analyzeButton = document.getElementById("analyzeButton");
+    const messages = document.getElementById("messages");
+    const dataPreview = document.getElementById("dataPreview");
+    const results = document.getElementById("results");
+    const statsGrid = document.getElementById("statsGrid");
+    const outliersSection = document.getElementById("outliersSection");
+    const outlierValues = document.getElementById("outlierValues");
 
-    <script>
-        let currentData = [];
-        let currentHeaders = [];
+    const numberFormatter = new Intl.NumberFormat("en-US", {
+      maximumFractionDigits: 3
+    });
 
-        // Simple CSV parser (from the working minimal version)
-        function parseCSV(text) {
-            const lines = text.trim().split('\n').filter(line => line.trim() !== '');
-            if (lines.length < 2) return null;
+    function showMessage(text, type) {
+      messages.innerHTML = `<div class="message ${type}">${text}</div>`;
+    }
 
-            // Get headers from first line
-            const headers = lines[0].split(',').map(h => h.trim());
-            
-            // Parse data rows
-            const data = [];
-            for (let i = 1; i < lines.length; i++) {
-                const values = lines[i].split(',');
-                if (values.length === headers.length) {
-                    const row = {};
-                    for (let j = 0; j < headers.length; j++) {
-                        row[headers[j]] = values[j].trim();
-                    }
-                    data.push(row);
-                }
-            }
+    function parseCSV(text) {
+      const rows = [];
+      let currentRow = [];
+      let currentField = "";
+      let inQuotes = false;
 
-            return { headers, data };
+      for (let i = 0; i < text.length; i += 1) {
+        const char = text[i];
+        const nextChar = text[i + 1];
+
+        if (char === '"') {
+          if (inQuotes && nextChar === '"') {
+            currentField += '"';
+            i += 1;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (char === "," && !inQuotes) {
+          currentRow.push(currentField.trim());
+          currentField = "";
+        } else if ((char === "\n" || char === "\r") && !inQuotes) {
+          if (currentField.length || currentRow.length) {
+            currentRow.push(currentField.trim());
+            rows.push(currentRow);
+            currentRow = [];
+            currentField = "";
+          }
+        } else {
+          currentField += char;
         }
+      }
 
-        // File upload
-        document.getElementById('csvFile').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+      if (currentField.length || currentRow.length) {
+        currentRow.push(currentField.trim());
+        rows.push(currentRow);
+      }
 
-            if (!file.name.toLowerCase().endsWith('.csv')) {
-                showMessage('Please upload a CSV file', 'error');
-                return;
-            }
+      if (rows.length < 2) {
+        return null;
+      }
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const result = parseCSV(e.target.result);
-                    if (!result || result.data.length === 0) {
-                        showMessage('Could not parse CSV file', 'error');
-                        return;
-                    }
-
-                    currentData = result.data;
-                    currentHeaders = result.headers;
-                    populateColumns(result.headers);
-                    showDataPreview(result.data, result.headers);
-                    showMessage('✅ File loaded successfully! Select a column to analyze.', 'success');
-                    document.getElementById('results').style.display = 'none'; // Hide previous results
-                } catch (error) {
-                    showMessage('❌ Error: ' + error.message, 'error');
-                }
-            };
-            reader.readAsText(file);
+      const headers = rows[0];
+      const data = rows.slice(1).map(row => {
+        const record = {};
+        headers.forEach((header, index) => {
+          record[header] = row[index] ?? "";
         });
+        return record;
+      });
 
-        function populateColumns(headers) {
-            const select = document.getElementById('columnSelect');
-            select.innerHTML = '<option value="">Select column to analyze...</option>';
-            
-            // Check each column for numeric values across ALL rows
-            headers.forEach(header => {
-                // Count how many values in this column are numeric
-                let numericCount = 0;
-                currentData.forEach(row => {
-                    const value = parseFloat(row[header]);
-                    if (!isNaN(value)) {
-                        numericCount++;
-                    }
-                });
-                
-                // Only add to dropdown if at least 3 numeric values exist
-                if (numericCount >= 3) {
-                    const option = document.createElement('option');
-                    option.value = header;
-                    option.textContent = header;
-                    select.appendChild(option);
-                }
-            });
-            
-            // Show dropdown only if there are numeric columns
-            if (select.children.length > 1) {
-                select.style.display = 'inline-block';
-            } else {
-                showMessage('No numeric columns found with at least 3 values.', 'error');
-                select.style.display = 'none';
-            }
+      return { headers, data };
+    }
+
+    function normalizeNumber(value) {
+      if (typeof value !== "string") {
+        return Number(value);
+      }
+
+      const cleaned = value.replace(/,/g, "").trim();
+      const numeric = Number(cleaned);
+      return Number.isFinite(numeric) ? numeric : NaN;
+    }
+
+    function findNumericHeaders(headers, data) {
+      return headers.filter(header => {
+        const numericValues = data
+          .map(row => normalizeNumber(row[header]))
+          .filter(value => Number.isFinite(value));
+        return numericValues.length >= 3;
+      });
+    }
+
+    function renderPreview(headers, data) {
+      let html = `<div class="preview-header">Data Preview (First 5 rows)</div>`;
+      html += `<strong>${headers.join(" | ")}</strong><br />`;
+      html += "—".repeat(60) + "<br />";
+      data.slice(0, 5).forEach(row => {
+        html += headers.map(header => row[header]).join(" | ") + "<br />";
+      });
+      dataPreview.innerHTML = html;
+      dataPreview.style.display = "block";
+    }
+
+    function updateColumnSelect() {
+      columnSelect.innerHTML = "<option value=\"\">Select column to analyze...</option>";
+      state.numericHeaders.forEach(header => {
+        const option = document.createElement("option");
+        option.value = header;
+        option.textContent = header;
+        columnSelect.appendChild(option);
+      });
+
+      const hasColumns = state.numericHeaders.length > 0;
+      columnSelect.disabled = !hasColumns;
+      analyzeButton.disabled = !hasColumns;
+    }
+
+    function percentile(sorted, p) {
+      const index = (sorted.length - 1) * p;
+      const lower = Math.floor(index);
+      const upper = Math.ceil(index);
+      if (lower === upper) {
+        return sorted[lower];
+      }
+      const weight = index - lower;
+      return sorted[lower] + weight * (sorted[upper] - sorted[lower]);
+    }
+
+    function calculateStats(values) {
+      const sorted = [...values].sort((a, b) => a - b);
+      const n = sorted.length;
+      const mean = sorted.reduce((sum, val) => sum + val, 0) / n;
+      const variance = sorted.reduce((sum, val) => sum + (val - mean) ** 2, 0) / (n - 1);
+      const stdDev = Math.sqrt(variance);
+
+      const q1 = percentile(sorted, 0.25);
+      const q2 = percentile(sorted, 0.5);
+      const q3 = percentile(sorted, 0.75);
+      const iqr = q3 - q1;
+      const lowerFence = q1 - 1.5 * iqr;
+      const upperFence = q3 + 1.5 * iqr;
+
+      const skewness = n > 2
+        ? (sorted.reduce((sum, val) => sum + ((val - mean) / stdDev) ** 3, 0) * n) /
+          ((n - 1) * (n - 2))
+        : 0;
+      const kurtosis = n > 3
+        ? ((n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3))) *
+            sorted.reduce((sum, val) => sum + ((val - mean) / stdDev) ** 4, 0) -
+          (3 * (n - 1) ** 2) / ((n - 2) * (n - 3))
+        : 0;
+
+      const outliers = values.filter(val => val < lowerFence || val > upperFence);
+
+      return {
+        n,
+        mean,
+        variance,
+        stdDev,
+        q1,
+        q2,
+        q3,
+        iqr,
+        min: sorted[0],
+        max: sorted[sorted.length - 1],
+        range: sorted[sorted.length - 1] - sorted[0],
+        skewness,
+        kurtosis,
+        lowerFence,
+        upperFence,
+        outliers
+      };
+    }
+
+    function formatStat(value, digits = 2) {
+      if (!Number.isFinite(value)) {
+        return "–";
+      }
+      return Number(value.toFixed(digits)).toLocaleString("en-US");
+    }
+
+    function displayStats(stats) {
+      const cards = [
+        { label: "Mean", value: formatStat(stats.mean) },
+        { label: "Q1", value: formatStat(stats.q1) },
+        { label: "Median", value: formatStat(stats.q2) },
+        { label: "Q3", value: formatStat(stats.q3) },
+        { label: "IQR", value: formatStat(stats.iqr) },
+        { label: "Std Dev", value: formatStat(stats.stdDev) },
+        { label: "Min", value: formatStat(stats.min, 1) },
+        { label: "Max", value: formatStat(stats.max, 1) },
+        { label: "Skewness", value: formatStat(stats.skewness, 3) },
+        { label: "Kurtosis", value: formatStat(stats.kurtosis, 3) },
+        { label: "Outliers", value: stats.outliers.length.toString() },
+        { label: "Sample Size", value: stats.n.toString() }
+      ];
+
+      if (stats.outliers.length) {
+        cards.push(
+          { label: "Lower Fence", value: formatStat(stats.lowerFence) },
+          { label: "Upper Fence", value: formatStat(stats.upperFence) }
+        );
+      }
+
+      statsGrid.innerHTML = cards
+        .map(card => `
+          <div class="stat-card">
+            <div class="stat-label">${card.label}</div>
+            <div class="stat-value">${card.value}</div>
+          </div>
+        `)
+        .join("");
+    }
+
+    function displayOutliers(outliers) {
+      if (!outliers.length) {
+        outliersSection.style.display = "none";
+        return;
+      }
+      outlierValues.textContent = outliers.map(value => numberFormatter.format(value)).join(", ");
+      outliersSection.style.display = "block";
+    }
+
+    function createHistogram(data, stats, columnName) {
+      const numBins = Math.max(5, Math.min(30, Math.ceil(Math.sqrt(stats.n))));
+      const histogramTrace = {
+        x: data,
+        type: "histogram",
+        nbinsx: numBins,
+        marker: { color: "rgba(79, 70, 229, 0.75)", line: { color: "#312e81", width: 1 } }
+      };
+
+      const x = [];
+      const y = [];
+      const step = (stats.max - stats.min) / 200 || 1;
+      for (let i = stats.min - 3 * stats.stdDev; i <= stats.max + 3 * stats.stdDev; i += step) {
+        x.push(i);
+        const norm =
+          (1 / (stats.stdDev * Math.sqrt(2 * Math.PI))) *
+          Math.exp(-0.5 * ((i - stats.mean) / stats.stdDev) ** 2);
+        y.push(norm * stats.n * ((stats.max - stats.min) / numBins));
+      }
+
+      const normalTrace = {
+        x,
+        y,
+        type: "scatter",
+        mode: "lines",
+        line: { color: "#f97316", width: 2 }
+      };
+
+      Plotly.newPlot("histogram", [histogramTrace, normalTrace], {
+        title: `Distribution Analysis: ${columnName}`,
+        xaxis: { title: columnName, gridcolor: "rgba(148, 163, 184, 0.3)" },
+        yaxis: { title: "Frequency", gridcolor: "rgba(148, 163, 184, 0.3)" },
+        showlegend: false,
+        margin: { t: 60, r: 20, b: 50, l: 50 }
+      });
+    }
+
+    function createBoxPlot(data, columnName) {
+      const trace = {
+        y: data,
+        type: "box",
+        name: columnName,
+        marker: { color: "#f97316", size: 6, line: { color: "#1e3a8a", width: 1 } },
+        line: { color: "#1e3a8a", width: 2 },
+        fillcolor: "#bfdbfe",
+        quartilemethod: "linear",
+        boxpoints: "outliers"
+      };
+
+      Plotly.newPlot("boxplot", [trace], {
+        title: `Box-Whiskers Plot Analysis: ${columnName}`,
+        yaxis: { gridcolor: "rgba(148, 163, 184, 0.3)", zeroline: false },
+        xaxis: { showticklabels: false },
+        showlegend: false,
+        margin: { l: 70, r: 40, t: 60, b: 40 },
+        height: 520,
+        plot_bgcolor: "white",
+        paper_bgcolor: "white"
+      });
+    }
+
+    function analyzeColumn() {
+      const columnName = columnSelect.value;
+      if (!columnName) {
+        return;
+      }
+
+      const values = state.data
+        .map(row => normalizeNumber(row[columnName]))
+        .filter(value => Number.isFinite(value));
+
+      if (values.length < 3) {
+        showMessage("Need at least 3 numeric values for statistics.", "error");
+        return;
+      }
+
+      const stats = calculateStats(values);
+      displayStats(stats);
+      displayOutliers(stats.outliers);
+      createHistogram(values, stats, columnName);
+      createBoxPlot(values, columnName);
+      results.style.display = "block";
+      showMessage("Analysis complete.", "success");
+    }
+
+    csvInput.addEventListener("change", event => {
+      const file = event.target.files[0];
+      if (!file) {
+        return;
+      }
+
+      if (!file.name.toLowerCase().endsWith(".csv")) {
+        showMessage("Please upload a CSV file.", "error");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = evt => {
+        const result = parseCSV(evt.target.result);
+        if (!result || !result.data.length) {
+          showMessage("Could not parse the CSV file.", "error");
+          return;
         }
 
-        // Fixed: Use same parsing method as the rest of the code
-        function showDataPreview(data, headers) {
-            const preview = document.getElementById('dataPreview');
-            let html = '<div class="preview-header">Data Preview (First 5 rows):</div>';
-            html += '<strong>' + headers.join(' | ') + '</strong><br>';
-            html += '—'.repeat(60) + '<br>';
-            
-            for (let i = 0; i < Math.min(5, data.length); i++) {
-                html += headers.map(h => data[i][h]).join(' | ') + '<br>';
-            }
-            
-            preview.innerHTML = html;
-            preview.style.display = 'block';
+        state.data = result.data;
+        state.headers = result.headers;
+        state.numericHeaders = findNumericHeaders(result.headers, result.data);
+
+        renderPreview(result.headers, result.data);
+        updateColumnSelect();
+        results.style.display = "none";
+
+        if (state.numericHeaders.length) {
+          showMessage("File loaded. Select a column and click Analyze.", "success");
+        } else {
+          showMessage("No numeric columns found with at least 3 values.", "error");
         }
+      };
 
-        function showMessage(msg, type) {
-            const div = document.getElementById('messages');
-            div.innerHTML = `<div class="${type}">${msg}</div>`;
-            setTimeout(() => div.innerHTML = '', 6000);
-        }
+      reader.readAsText(file);
+    });
 
-        // Only analyze when user selects a column
-        document.getElementById('columnSelect').addEventListener('change', function(e) {
-            const column = e.target.value;
-            if (column) analyzeColumn(column);
-        });
+    columnSelect.addEventListener("change", () => {
+      analyzeButton.disabled = !columnSelect.value;
+    });
 
-        function analyzeColumn(columnName) {
-            // Extract numeric values from the selected column
-            const values = currentData.map(row => parseFloat(row[columnName]))
-                                     .filter(val => !isNaN(val));
-
-            if (values.length === 0) {
-                showMessage('No numeric data found in this column', 'error');
-                return;
-            }
-
-            if (values.length < 3) {
-                showMessage('Need at least 3 numeric values for statistics', 'error');
-                return;
-            }
-
-            const stats = calculateStats(values);
-            displayStats(stats);
-            displayOutliers(stats.outliers);
-            createHistogram(values, stats, columnName);
-            createBoxPlot(values, stats, columnName);
-            
-            document.getElementById('results').style.display = 'block';
-        }
-
-        function calculateStats(data) {
-            const originalData = [...data];
-            data = [...data].sort((a, b) => a - b);
-            const n = data.length;
-            
-            const min = data[0];
-            const max = data[n-1];
-            const range = max - min;
-            
-            const mean = data.reduce((a, b) => a + b, 0) / n;
-            const median = n % 2 === 0 ? (data[n/2 - 1] + data[n/2]) / 2 : data[Math.floor(n/2)];
-            
-            // Quartiles (Q1, Q2, Q3)
-            const q1Index = Math.floor((n + 1) / 4) - 1;
-            const q3Index = Math.ceil(3 * (n + 1) / 4) - 1;
-            const q1 = data[Math.max(0, q1Index)];
-            const q2 = median;
-            const q3 = data[Math.min(n - 1, q3Index)];
-            const iqr = q3 - q1;
-            
-            const variance = data.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / (n - 1);
-            const stdDev = Math.sqrt(variance);
-            
-            const skewness = n > 2 ? 
-                (data.reduce((sum, val) => sum + Math.pow((val - mean) / stdDev, 3), 0) * n) / ((n - 1) * (n - 2)) 
-                : 0;
-            const kurtosis = n > 3 ? 
-                ((n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3))) * 
-                data.reduce((sum, val) => sum + Math.pow((val - mean) / stdDev, 4), 0) - 
-                (3 * (n - 1) ** 2) / ((n - 2) * (n - 3))
-                : 0;
-            
-            const lowerFence = q1 - 1.5 * iqr;
-            const upperFence = q3 + 1.5 * iqr;
-            const outliers = originalData.filter(val => val < lowerFence || val > upperFence);
-            
-            return { mean, q1, q2, q3, iqr, min, max, range, stdDev, variance, skewness, kurtosis, outliers, n, lowerFence, upperFence };
-        }
-
-        function displayStats(stats) {
-            const grid = document.getElementById('statsGrid');
-            let html = `
-                <div class="stat-card">
-                    <div class="stat-label">Mean</div>
-                    <div class="stat-value">${stats.mean.toFixed(2)}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Q1</div>
-                    <div class="stat-value">${stats.q1.toFixed(2)}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Q2 (Median)</div>
-                    <div class="stat-value">${stats.q2.toFixed(2)}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Q3</div>
-                    <div class="stat-value">${stats.q3.toFixed(2)}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">IQR</div>
-                    <div class="stat-value">${stats.iqr.toFixed(2)}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Std Dev</div>
-                    <div class="stat-value">${stats.stdDev.toFixed(2)}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Min</div>
-                    <div class="stat-value">${stats.min.toFixed(1)}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Max</div>
-                    <div class="stat-value">${stats.max.toFixed(1)}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Skewness</div>
-                    <div class="stat-value">${stats.skewness.toFixed(3)}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Kurtosis</div>
-                    <div class="stat-value">${stats.kurtosis.toFixed(3)}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Outliers</div>
-                    <div class="stat-value">${stats.outliers.length}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Sample Size</div>
-                    <div class="stat-value">${stats.n}</div>
-                </div>
-            `;
-
-            // Add fences if outliers exist
-            if (stats.outliers.length > 0) {
-                html += `
-                    <div class="stat-card">
-                        <div class="stat-label">Lower Fence</div>
-                        <div class="stat-value">${stats.lowerFence.toFixed(2)}</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Upper Fence</div>
-                        <div class="stat-value">${stats.upperFence.toFixed(2)}</div>
-                    </div>
-                `;
-            }
-
-            grid.innerHTML = html;
-        }
-
-        function displayOutliers(outliers) {
-            const section = document.getElementById('outliersSection');
-            const list = document.getElementById('outlierValues');
-            if (outliers.length > 0) {
-                list.innerHTML = outliers.map(v => `<span style="color:#e74c3c;">${v.toFixed(2)}</span>`).join(', ');
-                section.style.display = 'block';
-            } else {
-                section.style.display = 'none';
-            }
-        }
-
-        function createHistogram(data, stats, columnName) {
-            // ⚙️ CUSTOMIZE: Number of bins for histogram
-            const numBins = Math.max(5, Math.min(30, Math.ceil(Math.sqrt(stats.n))));
-            // Tip: Increase numBins for finer detail, decrease for smoother look
-
-            const trace1 = {
-                x: data,
-                type: 'histogram',
-                nbinsx: numBins,
-                name: 'Data',
-                marker: { 
-                    color: 'rgba(102, 126, 234, 0.8)', 
-                    line: { color: '#4a55a2', width: 1 } 
-                },
-                opacity: 0.7,
-                // ❌ No hovertemplate — removes tooltips
-            };
-
-            // Normal curve
-            const x = [];
-            const y = [];
-            const step = (stats.max - stats.min) / 200;
-            for (let i = stats.min - 3*stats.stdDev; i <= stats.max + 3*stats.stdDev; i += step) {
-                x.push(i);
-                const norm = (1 / (stats.stdDev * Math.sqrt(2 * Math.PI))) * 
-                            Math.exp(-0.5 * Math.pow((i - stats.mean) / stats.stdDev, 2));
-                y.push(norm * stats.n * (stats.max - stats.min) / numBins);
-            }
-
-            const trace2 = {
-                x: x,
-                y: y,
-                type: 'scatter',
-                mode: 'lines',
-                name: 'Normal Distribution',
-                line: { color: '#e74c3c', width: 2.5 },
-                // ❌ No hovertemplate — removes tooltips
-            };
-
-            // Add annotation for "Normal Distribution" near the peak
-            const peakX = stats.mean;
-            const peakY = y[Math.floor(x.indexOf(peakX))] || Math.max(...y);
-            const annotation = {
-                x: peakX,
-                y: peakY,
-                text: 'Normal Distribution',  // 👈 CHANGE THIS TEXT HERE
-                showarrow: true,
-                arrowhead: 2,
-                ax: 0,
-                ay: -40,
-                font: { size: 12, color: '#e74c3c' },
-                bgcolor: 'white',
-                bordercolor: '#e74c3c',
-                borderwidth: 1,
-                opacity: 0.9
-            };
-
-            Plotly.newPlot('histogram', [trace1, trace2], {
-                title: `Distribution Analysis: ${columnName}`,
-                xaxis: { 
-                    title: columnName,
-                    showgrid: true,
-                    gridcolor: 'rgba(200,200,200,0.5)'
-                },
-                yaxis: { 
-                    title: 'Frequency',
-                    showgrid: true,
-                    gridcolor: 'rgba(200,200,200,0.5)'
-                },
-                showlegend: false,  // ✅ Removed legend
-                margin: { t: 60, r: 30, b: 50, l: 50 },
-                annotations: [annotation],
-                // ⚙️ CUSTOMIZE: Adjust plot width/height here
-                // width: 600,  // Uncomment to set fixed width
-                // height: 400  // Uncomment to set fixed height
-            });
-        }
-
-        function createBoxPlot(data, stats, columnName) {
-            const trace = {
-                y: data,
-                type: 'box',
-                name: columnName,
-                boxpoints: stats.outliers.length > 0 ? 'outliers' : false, // Show outliers only if they exist
-                jitter: 0.3,
-                pointpos: 0,
-                marker: {
-                    color: 'red',           // Outliers in red
-                    size: 6,
-                    line: { color: 'darkblue', width: 1 }
-                },
-                line: { 
-                    color: 'darkblue', 
-                    width: 2              // Thinner line
-                },
-                fillcolor: 'lightblue',   // Solid fill
-                whiskerwidth: 0.5,        // Thinner whiskers
-                quartilemethod: 'linear',
-                // ❌ No hovertemplate — removes tooltips
-            };
-
-            const annotations = [];
-
-            // ⚙️ CUSTOMIZE: Distance of Q1/Q2/Q3 labels from box (increase ax to push further right)
-            const qLabelDistance = 35;  // Default: 35 — increase to 40, 50, etc. to push further right
-            // Example: To push labels farther away, change to 45 or 50
-
-            // Add Q1, Q2, Q3 labels OUTSIDE the box — pushed far right
-            annotations.push(
-                {
-                    x: 0, y: stats.q1,
-                    text: `Q1 = ${stats.q1.toFixed(2)}`,
-                    showarrow: false,
-                    xanchor: 'left',       // Points to the right of the box
-                    ax: qLabelDistance,    // ⚙️ Adjust this value to move labels left/right
-                    ay: 0,
-                    font: { size: 12, color: '#2c3e50', family: 'Arial' },
-                    bgcolor: 'rgba(255,255,255,0.9)',
-                    borderpad: 4,
-                    bordercolor: 'darkblue',
-                    borderwidth: 1
-                },
-                {
-                    x: 0, y: stats.q2,
-                    text: `Q2 = ${stats.q2.toFixed(2)}`,
-                    showarrow: false,
-                    xanchor: 'left',
-                    ax: qLabelDistance,
-                    ay: 0,
-                    font: { size: 12, color: '#2c3e50', family: 'Arial' },
-                    bgcolor: 'rgba(255,255,255,0.9)',
-                    borderpad: 4,
-                    bordercolor: 'darkblue',
-                    borderwidth: 1
-                },
-                {
-                    x: 0, y: stats.q3,
-                    text: `Q3 = ${stats.q3.toFixed(2)}`,
-                    showarrow: false,
-                    xanchor: 'left',
-                    ax: qLabelDistance,
-                    ay: 0,
-                    font: { size: 12, color: '#2c3e50', family: 'Arial' },
-                    bgcolor: 'rgba(255,255,255,0.9)',
-                    borderpad: 4,
-                    bordercolor: 'darkblue',
-                    borderwidth: 1
-                }
-            );
-
-            // Only add fence labels if there are outliers
-            if (stats.outliers.length > 0) {
-                // ⚙️ CUSTOMIZE: Position of fence labels — adjust ax to move left/right, ay to move up/down
-                const fenceLabelOffsetX = -50;  // Negative = left side, positive = right side
-                const fenceLabelOffsetY = 0;    // Vertical offset — usually 0
-
-                // Lower Fence label — small red box on LEFT, arrow pointing to whisker end
-                annotations.push(
-                    {
-                        x: 0, y: stats.lowerFence,
-                        text: `Lower Fence<br>${stats.lowerFence.toFixed(2)}`,
-                        showarrow: true,
-                        arrowhead: 2,
-                        ax: fenceLabelOffsetX,   // ⚙️ Adjust to avoid covering data
-                        ay: fenceLabelOffsetY,
-                        xanchor: 'right',
-                        font: { size: 11, color: 'white', family: 'Arial', weight: 'bold' },
-                        bgcolor: 'red',
-                        bordercolor: 'white',
-                        borderwidth: 1,
-                        opacity: 0.9,
-                        borderpad: 2,
-                        width: 70
-                    }
-                );
-
-                // Upper Fence label — same as above
-                annotations.push(
-                    {
-                        x: 0, y: stats.upperFence,
-                        text: `Upper Fence<br>${stats.upperFence.toFixed(2)}`,
-                        showarrow: true,
-                        arrowhead: 2,
-                        ax: fenceLabelOffsetX,
-                        ay: fenceLabelOffsetY,
-                        xanchor: 'right',
-                        font: { size: 11, color: 'white', family: 'Arial', weight: 'bold' },
-                        bgcolor: 'red',
-                        bordercolor: 'white',
-                        borderwidth: 1,
-                        opacity: 0.9,
-                        borderpad: 2,
-                        width: 70
-                    }
-                );
-            }
-
-            // Optional: Min/Max labels — only if they’re not the same as fences
-            if (stats.min !== stats.lowerFence) {
-                annotations.push({
-                    x: 0, y: stats.min,
-                    text: `Min: ${stats.min.toFixed(2)}`,
-                    showarrow: true,
-                    arrowhead: 2,
-                    ax: 40,
-                    ay: -20,
-                    font: { size: 10, color: '#7f8c8d' }
-                });
-            }
-            if (stats.max !== stats.upperFence) {
-                annotations.push({
-                    x: 0, y: stats.max,
-                    text: `Max: ${stats.max.toFixed(2)}`,
-                    showarrow: true,
-                    arrowhead: 2,
-                    ax: 40,
-                    ay: 20,
-                    font: { size: 10, color: '#7f8c8d' }
-                });
-            }
-
-            const layout = {
-                title: {
-                    text: `Box-Whiskers Plot Analysis: ${columnName}`,
-                    font: { size: 18, color: '#2c3e50' }
-                },
-                yaxis: {
-                    title: '',
-                    showgrid: true,
-                    gridcolor: 'rgba(200,200,200,0.3)',
-                    zeroline: false,
-                    tickfont: { size: 12 }
-                },
-                xaxis: {
-                    showticklabels: false,
-                    range: [-0.5, 1.5]  // Extra space for labels on right
-                },
-                showlegend: false,
-                margin: { l: 80, r: 200, t: 60, b: 50 },
-                // ⚙️ CUSTOMIZE: Adjust box plot size here
-                height: 600,  // Increase/decrease for taller/shorter plot
-                // width: 500,  // Uncomment to set fixed width
-                annotations: annotations,
-                plot_bgcolor: 'white',
-                paper_bgcolor: 'white'
-            };
-
-            Plotly.newPlot('boxplot', [trace], layout);
-        }
-    </script>
+    analyzeButton.addEventListener("click", analyzeColumn);
+  </script>
 </body>
-
 </html>
-
